@@ -94,7 +94,7 @@ public class TCPController {
                 Response response = new Response();
                 response.data = new HashMap<>();
                 switch (rq.action) {
-                    case "SELECT_CELL":
+                    case "SELECT_CELL"-> {
                         int i = Integer.parseInt(data.get("i"));
                         int j = Integer.parseInt(data.get("j"));
                         try {
@@ -110,30 +110,40 @@ public class TCPController {
                         }
                         Cell[][] board = services.printBoard();
                         response.data.put("board", board);
-                        break;
-                    case "SOW_ALL":
+                    }
+                    case "MARK_CELL" -> {
+                        int i = Integer.parseInt(data.get("i"));
+                        int j = Integer.parseInt(data.get("j"));
+                        services.markCell(i,j);
+                        response.status = "OK";
+                        Cell[][] board = services.printBoard();
+                        response.data.put("board", board);
+                    }
+                    case "SOW_ALL" -> {
                         services.showAll(true);
-                        board = services.printBoard();
+                        Cell[][] board = services.printBoard();
                         response.status = "OK";
                         response.data.put("board", board);
-                        break;
-                    case "GET_BOARD":
-                        board = services.printBoard();
+                    }
+
+                    case "GET_BOARD" -> {
+                        Cell[][] board = services.printBoard();
                         response.status = "OK";
                         response.data.put("board", board);
-                        break;
-                    case "INIT_GAME":
-                        i = Integer.parseInt(data.get("n"));
-                        j = Integer.parseInt(data.get("m"));
+                    }
+
+                    case "INIT_GAME" -> {
+                        int i = Integer.parseInt(data.get("n"));
+                        int j = Integer.parseInt(data.get("m"));
+
                         int m = Integer.parseInt(data.get("minas"));
                         services.initGame(i, j, m);
-                        board = services.printBoard();
+                        Cell[][] board = services.printBoard();
                         response.status = "OK";
                         response.data.put("board", board);
-                        break;
 
-                    default:
-                        break;
+                    }
+                    default -> System.out.println("Unknown action");
                 }
 
                 String json = gson.toJson(response);

@@ -22,6 +22,10 @@ public class ServicesImpl{
         return game.selectCell(i, j);
     }
 
+    public void markCell(int i, int j) {
+        game.markCell(i, j);
+    }
+
     public void showAll(boolean show) {
         
         game.showAll(show);
